@@ -1,0 +1,11 @@
+# Python bytecode
+*.pyc
+*.pyo
+
+# Databases
+*.db
+*.sql
+*.sqlite
+
+
+# vim: set ts=4 sw=4 tw=120 ff=unix :
