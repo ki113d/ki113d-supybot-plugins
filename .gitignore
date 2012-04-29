@@ -7,5 +7,10 @@
 *.sql
 *.sqlite
 
+# Logs
+*.log
+
+# Dirs
+logs
 
 # vim: set ts=4 sw=4 tw=120 ff=unix :
