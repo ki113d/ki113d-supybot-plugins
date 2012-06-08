@@ -1,1 +1,2 @@
-Insert a description of your plugin here, with any notes, etc. about using it.
+Lmgtfy simply returns a tinyurl directed to a lmgtfy address...
+Simple enough no? :D
