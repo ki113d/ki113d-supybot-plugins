@@ -1,0 +1,1 @@
+Atempted replacement of the original, buggy as fuck, Uno plugin for supybot!
