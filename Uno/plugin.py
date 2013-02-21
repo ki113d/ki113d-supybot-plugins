@@ -14,7 +14,7 @@
 #     contributors to this software may be used to endorse or promote products
 #     derived from this software without specific prior written consent.
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 # ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
@@ -42,38 +42,75 @@ _ = PluginInternationalization('Uno')
 
 @internationalizeDocstring
 class Uno(callbacks.Plugin):
-    """Add the help for "@plugin help Uno" here
-    This should describe *how* to use this plugin."""
-    pass
+    '''
+        Add the help for '@plugin help Uno' here
+        This should describe *how* to use this plugin.
+    '''
+
 
     def start(self, irc):
-        
+        '''
+            Starts a given game at the table in which the user has joined.
+        '''
         pass
     start = wrap(start)
 
+    def join(self, irc):
+        '''
+            Joins a table.
+        '''
+        pass
+    join = wrap(join)
 
 Class = Uno
 
 class Game(object):
-    pass
+    '''
+        Game object.
+
+        Handles everything to do with the game.
+        Deck, players, etc
+    '''
+
+
+    def __init__(self, table):
+        self.__table = table
+        self.__players = self.__table.players
+        self.__deck = Deck()
+        self.__reversed = false
+
+    @property
+    def reversed(self):
+        '''
+            Getter.
+        '''
+        return self.__reversed
+
+    @reversed.setter
+    def reversed(self, value):
+        self.__reversed = value
 
 class Table(object):
 
     def __init__(self):
         self._move = 0
         self._players = dict()
-        self._info = {'creater', '';}
+        self._info = {'creater': '',}
 
     @property
     def players(self):
         return self._players
 
     def add_user(self, player):
+        '''
+            Adds a new user to the table.
+            @todo: Add support for checking if the user is on another table.
+        '''
         if player.lower() not in self._players.keys():
             self._players[player.lower()] = Player(name, len(self._players))
 
     def next_move(self):
-        if len(self._players) < 2:
+        pass
 
 
 class Player(object):
@@ -81,51 +118,108 @@ class Player(object):
     def __init__(self, name, id):
         self._name = name
         self._id = id
+        self._hand = list()
+
+    def play_card(self, name):
+        pass
 
 class Card(object):
-    """
+    '''
         Base class for cards.
-    """
+    '''
     pass
 
 class Number_Card(Card):
+    '''
+        Number card.
+    '''
+
+
     def __init__(self, number, colour):
+        '''
+            Constructor.
+        '''
         self._number = number
         self._colour = colour
 
     @property
     def number(self):
+        '''
+            Getter
+        '''
         return self._number
 
     @property
     def colour(self):
+        '''
+            Getter
+        '''
         return self._colour
 
     def __str__(self):
+        '''
+            Returns a custom string representation of the object.
+        '''
         return '{0}:{1}'.format(self._number, self._colour)
 
 class Special_Card(Card):
+    '''
+        Special card object for cards such as skip, revers, draw two, wild
+        and wild draw four.
+    '''
+
+
     def __init__(self, special, colour):
+        '''
+            Constructor.
+        '''
         self._special = special
         self._colour = colour
     
     @property
     def special(self):
+        '''
+            Getter.
+        '''
         return self._special
     
     @property
     def colour(self):
+        '''
+            Getter.
+        '''
         return self._colour
     
     def __str__(self):
+        '''
+            Returns a customs string representation of the object.
+        '''
         return '{0}:{1}'.format(self._special, self._colour)
 
 class Deck(object):
+    '''
+        Deck object.
+
+        Handles all deck related opperations.
+    '''
+
 
     def __init__(self):
+        '''
+            Constructor.
+        '''
         self._list = list()
+        self.init_list()
+        self.shuffle()
 
     def init_list(self):
+        '''
+            Creates a new deck of cards, 108 in total.
+
+            19 number cards of each colour - 0(x1) to 9(x2).
+            8 draw two, reverse and skip cards.
+            4 wild and wild draw four cards.
+        '''
         # Set up deck with coloured cards.
         for colour in (Colours.BLUE, Colours.GREEN, Colours.RED, Colours.YELLOW):
             for number in xrange(10):
@@ -141,8 +235,13 @@ class Deck(object):
                 self._list.extend(Special_Card(special, Colours.NONE)
 
 
-    def shuffle(self):
-        random.shuffle(self._list, random.random)
+    def shuffle(self, count=1):
+        '''
+            Simply shuffles the deck.
+            @todo: Possibly shuffle the deck multiple times.
+        '''
+        for i in range(count):
+            random.shuffle(self._list, random.random)
 
 class Error():
     '''
@@ -151,8 +250,12 @@ class Error():
     pass
 
 def enum(**enums):
+    '''
+        Creates and returns an enumerator.
+    '''
     return type('Emum', (), enums)
 
+# Simple enumerators...
 Colours = enum(BLUE='Blue',
                GREEN='Green',
                RED='Red',
